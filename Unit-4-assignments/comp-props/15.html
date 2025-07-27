@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="root">NOT RENDERED</div>
+    
+
+    <script type="text/babel">
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        function Content(props){
+            const {content} = props;
+            return(
+            <>
+            <p>{content}</p>
+            </>
+            )
+        }
+        function Title(){
+            const blogs = [
+            { title: "Mastering JavaScript", content: "JavaScript is a powerful language for web development." },
+            { title: "React in Indian Startups", content: "React is widely used in many Indian tech companies." },
+            { title: "Career in Web Development", content: "Explore job roles and growth in web development." },
+            ];
+
+            const [content,setContent] = React.useState("")
+            return(
+                <>
+                    <div className="text-3xl flex justify-center bg-slate-200 border-2 gap-12 text-green-800 font-bold" >
+                        <button  onClick={()=> setContent(blogs[0].content)}>{blogs[0].title}</button>
+                        <button onClick={()=> setContent(blogs[1].content)}>{blogs[1].title}</button>
+                        <button onClick={()=> setContent(blogs[2].content)}>{blogs[2].title}</button>
+                    </div>
+
+                    <div className="m-24 text-center text-lg bg-slate-400 text-white">
+                    <h2>{content}</h2>    
+                    </div>
+                </>
+
+            )
+        }
+
+        root.render(<Title />);
+
+    </script>
+</body>
+</html>

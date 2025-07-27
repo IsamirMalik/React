@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="root">NOT RENDERED</div>
+    
+
+    <script type="text/babel">
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+
+        function Card(props){
+            const {title , children} = props;
+            
+            return (
+                <>
+                <div className="bg-slate-300 m-8 justify-center text-center border-2">
+                    <h1 className="text-red-800">{title}</h1>
+                    <h3 className='text-green-800'>{children}</h3>
+                </div> 
+                </>
+            )
+        }
+
+        function Parent(){
+
+            return(
+                < >
+                <Card  title={'Title1'} children={'heading1'}/>
+                <Card  title={'Title2'} children={'heading2'}/>
+                <Card  title={'Title2'} children={'heading3'}/>
+                </>
+            )
+        }
+
+
+
+        root.render(<Parent />);
+
+    </script>
+</body>
+</html>
