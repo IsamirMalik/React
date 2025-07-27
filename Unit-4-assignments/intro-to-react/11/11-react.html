@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="root"></div>
+    <div id="root2"></div>
+    
+
+
+    <script type="text/babel">
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        let p = <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Corporis corrupti, odio sit et ipsam exercitationem molestias nihil ut numquam debitis! Dignissimos tenetur, voluptate eius deserunt, suscipit explicabo unde labore quaerat reprehenderit alias asperiores modi itaque doloribus, ratione molestias veritatis! Repellendus accusamus nihil expedita itaque, eaque cum sequi doloremque odio numquam?</p>
+        root.render(p);
+    </script>
+
+   
+</body>
+</html>
