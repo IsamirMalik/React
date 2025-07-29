@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React + Tailwind + Babel Debug</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <!-- React and ReactDOM CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- Babel CDN -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <div id="root" >Not Rendered</div>
+  <!-- Example React code -->
+  <script type="text/babel">
+        function TodoList(){
+            const [list,setList] = React.useState([
+                "Buy Milk" , "Study React" , "Complete Assignments"
+            ]);
+            const [input,setInput] = React.useState("");
+
+            function handleChange(e){
+                setInput(e.target.value)
+            }
+
+            function addTask(){
+                if(input.trim() !== ""){
+                    setList([...list,input]);   
+                    setInput("")
+                }
+            }
+
+            function clearAll(){
+                setList([]);
+            }
+
+
+            return(
+                <>
+                <div className="p-4">
+                    <input type="text" value={input} onChange={handleChange} className="bg-slate-200 border-2 border-blue-500 m-4"/>
+                    <button className="border-1 pr-2 pl-2 rounded-lg m-4" onClick={addTask}>Add new Task</button>    
+                    <button className="border-1 pr-2 pl-2 rounded-lg" onClick={clearAll}>Clear All Tasks</button>    
+                </div>
+                <div className="bg-slate-200 border-2 border-green-700 rounded-lg m-8 p-4">
+                    {list.map((task,index)=>{
+                        return(
+                            <ul key={index}>
+                                <li >{task}</li>
+                            </ul>
+                        )
+                    })}
+                </div>
+                </>
+            )
+
+        }
+        
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<TodoList />)
+
+  </script>
+</body>
+</html>

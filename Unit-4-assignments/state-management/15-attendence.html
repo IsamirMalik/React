@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React + Tailwind + Babel Debug</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <!-- React and ReactDOM CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- Babel CDN -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <div id="root" >Not Rendered</div>
+  <!-- Example React code -->
+  <script type="text/babel">
+        function StudentList(){
+            const [list,setList] = React.useState([
+            {
+                id: 1,
+                name: "Abu bakar",
+                present: true
+            } ,
+            {
+                id: 2,
+                name: "Umar",
+                present: true
+            } ,
+            {
+                id: 3,
+                name: "Uthman",
+                present: true
+            } ,
+            {
+                id: 4,
+                name: "Arif",
+                present: false
+            } ,
+            {
+                id: 5,
+                name: 'Shahid',
+                present: false 
+            } ,
+            ]);
+
+            
+            function toggle(id){
+                setList(list.map(student=> student.id == id ? {...student , present: !student.present } : student))
+            }
+
+
+            return(
+                <>
+               
+                <div className="bg-slate-200 border-2 border-green-700 rounded-lg m-8 p-4">
+                    {list.map((student,index)=>{
+                        return(
+                            <ul key={student.id}>
+                                <h2  >{student.name} <button onClick={()=>{toggle(student.id)}} className="pl-4 border-1 pr-4 m-2" style={{backgroundColor : student.present === true ? "green" : "red"}} ><b>{student.present ? "Present" : "Absent"}</b></button></h2>
+                                
+                            </ul>
+                        )
+                    })}
+                </div>
+                </>
+            )
+
+        }
+        
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<StudentList />)
+
+  </script>
+</body>
+</html>
