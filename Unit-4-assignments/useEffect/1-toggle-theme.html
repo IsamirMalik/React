@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CDN LINKS -->
+
+        <!-- 1. Tailwind CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+        <!-- 2. React and React-DOM CDN -->
+       <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+        <!-- 3. Babel CDN -->
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    
+    <title>Document</title>
+</head>
+<body className="">
+    <div id="root">
+        <h1>Nothing Rendered</h1>
+    </div>
+
+    <script type="text/babel">
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+
+        function Box({theme}){
+            if(theme === 'light'){
+                return (
+                    <>
+                        <div className="w-100 h-100 bg-blue-500 text-black ">{theme}</div>
+                    </>
+                )
+            }       
+            return (
+                <>
+                    <div className="w-100 h-100 bg-red-500 text-white">{theme}</div>
+                </>
+            )
+        }
+
+        function App(){
+
+            const [ theme,setTheme ] = React.useState('light');
+
+            React.useEffect( ()=>{
+                const savedTheme = localStorage.getItem('theme');
+                setTheme(savedTheme); 
+            },[] );
+
+            React.useEffect(()=>{
+                localStorage.setItem('theme',theme);
+            },[theme] );
+
+            function toggleTheme(){
+                setTheme(theme === 'light' ? 'dark' : 'light');
+            }
+
+            if(theme == 'light'){
+                return(
+                    <div className="flex flex-col items-center gap-4 text-center">
+                        <div>
+                            <h1>Toggle Theme App</h1>
+                        </div>
+
+                        <div >
+                            <button className="bg-blue-500 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded" onClick={toggleTheme}>Toggle Theme</button>
+                        </div>
+
+                        <div className="flex gap-4 flex-row">
+                            <Box theme={theme}/>
+                            <Box theme={theme}/>
+                        </div>
+                    </div>
+                )
+            }
+
+            if(theme == 'dark'){
+                return(
+                    <div className="flex flex-col items-center gap-4 text-center">
+                        <div >
+                            <h1>Toggle Theme App</h1>
+                        </div>
+
+                        <div>
+                            <button className="bg-red-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" onClick={toggleTheme}>Toggle Theme</button>
+                        </div>                       
+
+                        <div className="flex gap-4 flex-row">
+                            <Box theme={theme}/>
+                            <Box theme={theme}/>
+                        </div>
+                    </div>
+                )
+            }
+
+            
+        }
+        root.render(<App />);
+    </script>
+</body>
+</html>

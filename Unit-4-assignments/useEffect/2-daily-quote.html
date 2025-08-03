@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Quote Generator</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+    }
+    .quote-container {
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      padding: 30px;
+      margin: 20px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .quote-text {
+      font-size: 1.5rem;
+      font-style: italic;
+      margin-bottom: 15px;
+    }
+    .quote-author {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #555;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .loading {
+      color: #666;
+    }
+    </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+
+    /*
+     for styling i used Ai , but for logic i used nothing , i wrote all the logic by myself , and the link which was propvided in the assignment was not working , so i used dummyjson.com to get the data
+     was not working , so i used dummyjson.com to get the data.
+    */
+
+    const { useState, useEffect } = React;
+
+    function QuoteGenerator() {
+      const [quote, setQuote] = useState(null);
+      const [loading, setLoading] = useState(true);
+      const [error, setError] = useState(null);
+
+      const fetchQuote = async () => {
+        try {
+          setLoading(true);
+          const response = await axios.get('https://dummyjson.com/quotes/random');
+          console.log(response.data)
+          setQuote(response.data);
+          setError(null);
+        } catch (err) {
+          setError(err.message);
+          setQuote(null);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      // Initial fetch and auto-refresh every 30 seconds
+      useEffect(() => {
+        fetchQuote(); // Fetch immediately
+        
+        const intervalId = setInterval(fetchQuote, 30000); // 30 seconds
+        
+        return () => clearInterval(intervalId); // Cleanup
+      }, []);
+
+      return (
+        <div>
+          <h1>Daily Quote Generator</h1>
+          
+          <div className="quote-container">
+            {loading && <p className="loading">Loading quote...</p>}
+            {error && <p className="error">Error: {error}</p>}
+            {quote && (
+              <>
+                <p className="quote-text">"{quote.quote}"</p>
+                <p className="quote-author">— {quote.author}</p>
+              </>
+            )}
+          </div>
+          
+          <button onClick={fetchQuote} disabled={loading}>
+            {loading ? 'Loading...' : 'Get New Quote'}
+          </button>
+          
+          <p>Quotes auto-refresh every 30 seconds</p>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<QuoteGenerator />);
+
+  </script>
+</body>
+</html>
