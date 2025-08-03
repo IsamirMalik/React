@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React + Tailwind + Babel Debug</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <!-- React and ReactDOM CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- Babel CDN -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <div id="root" >Not Rendered</div>
+  <!-- Example React code -->
+  <script type="text/babel">
+
+    function Counter({initialValue}){
+
+        return (
+            <div>
+                <h1>{initialValue}</h1>
+            </div>
+        )
+    }
+
+        function App(){
+            const [count,setCount] = React.useState(0);
+            const [initialValue,setInitialValue] = React.useState(0);
+
+            function increase(){
+                const num = parseInt(count,10);
+                    setCount(num+1)
+                
+            }
+
+            function decrease(){
+                if(count == 0) return ;
+                setCount(count-1)
+            }
+
+            function reset(){
+                setCount(0)
+            }
+
+            
+            function handleChange(e){
+                setCount(e.target.value);
+            }
+
+            return (
+                <div className="min-h-screen   bg-slate-300 p-16">
+                    <h1 className="text-2xl font-bold">Select the initial value</h1>
+                    <input type="number" className="border-2 p-2 m-2 rounded-lg" onChange={handleChange}  />
+                    <Counter initialValue={count} />
+                
+
+                <button className="border-2 p-2 m-2 rounded-lg" onClick={increase}>Increase Count</button>
+                <button className="border-2 p-2 m-2 rounded-lg" onClick={decrease}>Decrease Count</button>
+                <small className="text-sm text-gray-500">Counter can not go below 0</small>
+                </div>
+
+            )
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />)
+
+  </script>
+</body>
+</html>

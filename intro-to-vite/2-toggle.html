@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React + Tailwind + Babel Debug</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- React and ReactDOM CDN -->
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <!-- Babel CDN -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root">Not Rendered</div>
+    <!-- Example React code -->
+    <script type="text/babel">
+
+        {/* Used Ai for styling , wrote the whole logic by myself */}
+        
+      function Button(props) {
+        function toggle() {
+          props.onClick(props.on);
+        }
+        return (
+          <>
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={toggle}
+                className={`relative inline-flex h-12 w-24 items-center rounded-full transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                  props.on === "On" ? "bg-blue-600" : "bg-gray-200"
+                }`}
+              >
+                <span
+                  className={`inline-block h-8 w-8 transform rounded-full bg-white transition-transform duration-300 ease-in-out shadow-lg ${
+                    props.on === "On" ? "translate-x-12" : "translate-x-1"
+                  }`}
+                />
+              </button>
+              <span
+                className={`text-lg font-semibold transition-colors duration-300 ${
+                  props.on === "On" ? "text-blue-600" : "text-gray-600"
+                }`}
+              >
+                {props.on}
+              </span>
+            </div>
+          </>
+        );
+      }
+
+      function App() {
+        const [isOn, setIsOn] = React.useState(false);
+
+        function handleClick() {
+          setIsOn(!isOn);
+        }
+
+        return (
+          <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 p-8">
+            <div className="max-w-md mx-auto mt-16">
+              <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+                  Toggle Switch
+                </h1>
+                <div className="flex justify-center">
+                  <Button onClick={handleClick} on={isOn ? "On" : "Off"} />
+                </div>
+                <div className="mt-6 text-center">
+                  <p className="text-sm text-gray-500">
+                    Click the toggle to switch between On and Off states
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
