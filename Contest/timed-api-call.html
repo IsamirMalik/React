@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--  Dependcies CDN links -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <title>Timed API</title>
+
+</head>
+
+<body>
+    <div id="root" className="flex flex-col ">NOT RENDERED</div>
+    
+
+    <script type="text/babel">
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+
+
+        
+        function App(){
+
+            const [data,setData] = React.useState("");
+            const [loading,setLoading] = React.useState(false);
+            const [error,setError] = React.useState(null);
+            const [count , setCount ] = React.useState(10)
+
+            
+
+            
+                async function fetchData() {
+                    setLoading(true);
+                    try {
+                        const response = await axios.get("https://jsonplaceholder.typicode.com/posts");
+
+                        
+                        
+                        function countdown(count){
+
+                            if(count>0){
+                                setTimeout(()=> {
+                                setCount(count - 1)
+                                countdown(count - 1)
+                                },1000)
+
+                            }
+                        }
+
+                        countdown(count)
+                        
+                        setData(response.data);
+                        console.log(response.data);
+                    } catch (error) {
+                        setError(error.message)
+                    } finally {
+                        setLoading(false);
+                    }
+                }    
+
+
+                function clearData(){
+                    console.clear()
+                    setData("");
+                    setError(null);
+                }
+
+            function Card({post}){
+
+                return(
+                    <div key={post.id} className="border-2 border-blue-200 rounded-lg shadow-md bg-gray-100 flex flex-row m-4 max-w-xl">
+                       <h2>{post.title}</h2>
+                       <p>{post.body}</p> 
+                    </div>
+                )
+            }    
+
+            
+            
+
+
+            return(
+                <>
+                <h1>Timed API call Demo</h1>
+
+                <p><b>{count}</b></p>
+                <button onClick={fetchData}>{loading ? "Loading" : "Fetch Data"}</button>
+                <button onClick={clearData}>Clear</button>
+
+                {loading && ( 
+                    <div>
+                        <p>Fetching Data ... </p>
+                    </div> )}
+
+                {error && ( 
+                    <div>
+                        <p>Error: <b>{error}</b></p>
+                    </div>
+                     )}    
+
+                {data && !loading && count === 0 && (
+                    <>
+                    <div>
+                        <h3>Response has {data.length} items</h3>
+                    </div>
+
+                    
+                    </>    
+                )}
+
+                {data && count === 0 &&  (
+                    <div>
+                        {data.map((post)=>{
+                            return (
+                                <Card post={post} key={post.id} />
+                            )
+                        })}
+                    </div>
+                )}
+                     
+                </>
+            )
+        }
+
+        root.render(<App />);
+
+    </script>
+</body>
+</html>
