@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--  Dependcies CDN links -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <title>Timed API</title>
+
+</head>
+
+<body>
+    <div id="root" className="flex">NOT RENDERED</div>
+
+    <script type="text/babel">
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+
+        function App(){
+
+            const [data,setData] = React.useState('');
+            const [loading,setLoading] = React.useState(false);
+            const [error,setError] = React.useState(null)
+
+            React.useEffect(()=>{
+                async function FetchData() {
+
+                    try {
+                        setLoading(true);
+                        const response = await axios.get("https://jsonplaceholder.typicode.com/users");
+                        console.log(response.data);
+                        setData(response.data);
+                    } catch (error) {
+                        setError(error.message);
+                    } finally {
+                        setLoading(false);
+                    }
+                }
+
+                FetchData()
+            },[])
+
+            function Shimmer(){
+
+                return (
+
+                <div className=" m-4 bg-slate-500 min-h-40 border-2 rounded-lg">
+                    <h1>Loading</h1>
+                </div>
+                )
+            }
+
+
+            function UserCard({user}){
+
+                return(
+                    <div className="flex-32 m-4 bg-slate-800 text-white  justify-center align-text-center rounded-lg p-4 shadow-lg cursor-not-allowed ">
+                        <h1> <i class="fa-solid fa-circle-user"></i> Name : {user.name}</h1>
+                        <h2>Username : {user.username}</h2>
+                        <p> <i class="fa-solid fa-at"></i> Email : {user.email}</p>
+                        <p > <i class="fa-solid fa-phone"></i> Contact : {user.phone}</p>
+                        
+                        <p > <i className="fa-solid fa-location-dot"></i> Location : {user.address.city}</p>
+                    </div>
+                )
+            }
+
+            return (
+                <>
+                    {loading &&  (
+                        <>
+                        <Shimmer />
+                        <Shimmer />
+                        <Shimmer />
+                        <Shimmer />
+                        <Shimmer />
+                        <Shimmer />
+                        <Shimmer />
+                        <Shimmer />
+                        <Shimmer />
+                        <Shimmer />
+                        </>
+                    )}
+
+                    {error && (
+                        <div>
+                            <h1><strong>Error:</strong>{error}</h1>
+                        </div>
+                        )}
+
+                    {data && !loading && (
+                        <>
+                            {data.map((user)=>{
+                                return(
+                                    <div key={user.id}>
+                                        <UserCard  user={user}/>    
+                                    </div>
+                                )
+                            })}
+                        </>
+                    )}    
+                </>
+            )
+        }
+
+
+
+
+         root.render(<App />);
+
+    </script>
+</body>
+</html>
