@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--  Dependcies CDN links -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <script
+      src="https://unpkg.com/react-router-dom@6/umd/react-router-dom.development.js"
+      crossorigin
+    ></script>
+    <title>Context API</title>
+  </head>
+
+  <body>
+    <div id="root" className="flex">NOT RENDERED</div>
+
+    <script type="text/babel">
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      const { useContext, createContext, useState } = React;
+
+      const AuthContext = createContext();
+
+      function AuthProvider({ children }) {
+        const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+        const login = () => {
+          setIsAuthenticated(true);
+        };
+
+        const logout = () => {
+          setIsAuthenticated(false);
+        };
+
+        return (
+          <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+            {children}
+          </AuthContext.Provider>
+        );
+      }
+
+      function Navbar() {
+        const { isAuthenticated, login, logout } = useContext(AuthContext);
+
+        return (
+          <nav
+            style={{
+              backgroundColor: "#333",
+              color: "white",
+              padding: "1rem",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <button
+              onClick={isAuthenticated ? logout : login}
+              style={{
+                padding: "8px 16px",
+                backgroundColor: isAuthenticated ? "#dc3545" : "#28a745",
+                color: "white",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+                fontSize: "14px",
+              }}
+            >
+              {isAuthenticated ? "Logout" : "Login"}
+            </button>
+          </nav>
+        );
+      }
+
+      function Main() {
+        const { isAuthenticated } = useContext(AuthContext);
+
+        return (
+          <main
+            style={{
+              padding: "2rem",
+              minHeight: "400px",
+              backgroundColor: "#f8f9fa",
+            }}
+          >
+            <div
+              style={{
+                maxWidth: "800px",
+                margin: "0 auto",
+                textAlign: "center",
+              }}
+            >
+              <h1>Welcome to Our Application</h1>
+              {isAuthenticated ? (
+                <div>
+                  <h2 style={{ color: "#28a745" }}>
+                    You are successfully logged in!
+                  </h2>
+                </div>
+              ) : (
+                <div>
+                  <h2 style={{ color: "#6c757d" }}>
+                    Please log in to continue
+                  </h2>
+                </div>
+              )}
+            </div>
+          </main>
+        );
+      }
+
+      function Footer() {
+        const { isAuthenticated } = useContext(AuthContext);
+
+        return (
+          <footer
+            style={{
+              backgroundColor: "#333",
+              color: "white",
+              padding: "1rem",
+              textAlign: "center",
+              position: "fixed",
+              bottom: 0,
+              width: "100%",
+            }}
+          >
+            {isAuthenticated ? <p>Welcome</p> : <p>Please log in</p>}
+          </footer>
+        );
+      }
+
+      // App component that wraps everything in AuthProvider
+      function App() {
+        return (
+          <AuthProvider>
+            <div
+              style={{
+                minHeight: "100vh",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Navbar />
+              <Main />
+              <Footer />
+            </div>
+          </AuthProvider>
+        );
+      }
+
+      root.render(<App />);
+    </script>
+  </body>
+</html>

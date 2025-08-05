@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--  Dependcies CDN links -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <script
+      src="https://unpkg.com/react-router-dom@6/umd/react-router-dom.development.js"
+      crossorigin
+    ></script>
+    <title>Context API</title>
+  </head>
+
+  <body>
+    <div id="root" className="flex">NOT RENDERED</div>
+
+    <script type="text/babel">
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      const { useContext, createContext, useState } = React;
+
+      const ThemeContext = createContext("light");
+
+      const light = {
+        backgroundColor: "white",
+        color: "black",
+      };
+
+      const dark = {
+        backgroundColor: "black",
+        color: "white",
+      };
+
+      function ThemeProvider({ children }) {
+        const [theme, setTheme] = useState("light");
+
+        const toggleTheme = () => {
+          setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+        };
+
+        return (
+          <ThemeContext.Provider value={{ theme, toggleTheme }}>
+            {children}
+          </ThemeContext.Provider>
+        );
+      }
+
+      function ToggleButton() {
+        const { toggleTheme } = useContext(ThemeContext);
+
+        return (
+          <button
+            onClick={toggleTheme}
+            style={{
+              padding: "10px 20px",
+              fontSize: "16px",
+              cursor: "pointer",
+              backgroundColor: "#007bff",
+              color: "white",
+              border: "none",
+              borderRadius: "4px",
+            }}
+          >
+            Toggle Theme
+          </button>
+        );
+      }
+
+      function Box() {
+        const { theme } = useContext(ThemeContext);
+        const currentStyle = theme === "light" ? light : dark;
+
+        return (
+          <div
+            style={{
+              width: "400px",
+              height: "350px",
+              ...currentStyle,
+              padding: "20px",
+              border: "2px solid #ccc",
+              borderRadius: "8px",
+              margin: "20px",
+            }}
+          >
+            <p>Current theme: {theme}</p>
+          </div>
+        );
+      }
+
+      function App() {
+        return (
+          <ThemeProvider>
+            <div style={{ padding: "20px" }}>
+              <h1>Theme Context Example</h1>
+              <Box />
+              <ToggleButton />
+            </div>
+          </ThemeProvider>
+        );
+      }
+
+      root.render(<App />);
+    </script>
+  </body>
+</html>
