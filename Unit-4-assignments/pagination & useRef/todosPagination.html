@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todos Pagination</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- React CDN -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Axios CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script type="text/babel">
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+
+    //   Just to make it visually appealing , i used AI to add some styling 😎 ;
+
+      const { useState, useRef, useEffect } = React;
+
+      function App() {
+        const [todos, setTodos] = useState([]);
+        const [page, setPage] = useState(1);
+        const [loading, setLoading] = useState(false);
+        const [error, setError] = useState(null);
+
+        const pageRef = useRef(1);
+        const fetchTodos = async () => {
+          try {
+            setLoading(true);
+            const response = await axios.get(
+              "https://jsonplaceholder.typicode.com/todos"
+            );
+            console.log(response.data);
+            setTodos(response.data);
+            setLoading(false);
+          } catch (error) {
+            setError(error);
+          }
+        };
+
+        useEffect(() => {
+          fetchTodos();
+        }, []);
+
+        let totalNumberOfPages = Math.ceil(todos.length / 10);
+
+        let pages = [];
+        let index = 1;
+        while (index <= totalNumberOfPages) {
+          pages.push(index);
+          index++;
+        }
+
+        let todosPerPage = 10;
+        let lastIndexOfCurrentPage = page * todosPerPage;
+        let firstIndexOfCurrentPage = lastIndexOfCurrentPage - todosPerPage;
+        let currentTodos = todos.slice(
+          firstIndexOfCurrentPage,
+          lastIndexOfCurrentPage
+        );
+
+        function handlePageChange(event) {
+          const newPage = parseInt(event.target.textContent);
+          pageRef.current = newPage;
+          setPage(newPage);
+        }
+
+        function handlePrevious() {
+          if (page > 1) {
+            const newPage = page - 1;
+            pageRef.current = newPage;
+            setPage(newPage);
+          }
+        }
+
+        function handleNext() {
+          if (page < totalNumberOfPages) {
+            const newPage = page + 1;
+            pageRef.current = newPage;
+            setPage(newPage);
+          }
+        }
+
+        if (loading) {
+          return (
+            <div className="p-8">
+              <h1 className="text-4xl font-bold text-center mb-8">Todos</h1>
+              <div className="text-center text-gray-600">Loading todos...</div>
+            </div>
+          );
+        }
+
+        if (error) {
+          return (
+            <div className="p-8">
+              <h1 className="text-4xl font-bold text-center mb-8">Todos</h1>
+              <div className="text-center text-red-600">
+                Error loading todos
+              </div>
+            </div>
+          );
+        }
+
+        return (
+          <div className="p-8">
+            <h1 className="text-4xl font-bold text-center mb-8">Todos</h1>
+            <div className="max-w-4xl mx-auto">
+              <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+                <div className="text-center mb-4 text-gray-600">
+                  Showing page {page} of {totalNumberOfPages} ({todos.length}{" "}
+                  total todos)
+                </div>
+
+                <div className="space-y-3">
+                  {currentTodos.map((todo) => (
+                    <div
+                      key={todo.id}
+                      className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                    >
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="checkbox"
+                          checked={todo.completed}
+                          className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                        />
+                        <span
+                          className={`flex-1 ${
+                            todo.completed
+                              ? "line-through text-gray-500"
+                              : "text-gray-900"
+                          }`}
+                        >
+                          {todo.title}
+                        </span>
+                        <span
+                          className={`px-2 py-1 text-xs rounded-full ${
+                            todo.completed
+                              ? "bg-green-100 text-green-800"
+                              : "bg-yellow-100 text-yellow-800"
+                          }`}
+                        >
+                          {todo.completed ? "Completed" : "Pending"}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex justify-center items-center gap-4">
+                <button
+                  onClick={handlePrevious}
+                  disabled={page === 1}
+                  className={`px-4 py-2 rounded-lg border-2 transition-colors ${
+                    page === 1
+                      ? "border-gray-300 text-gray-400 cursor-not-allowed"
+                      : "border-blue-500 text-blue-600 hover:bg-blue-50"
+                  }`}
+                >
+                  Previous
+                </button>
+
+                <div className="flex gap-2">
+                  {pages.map((pageNum) => (
+                    <strong
+                      key={pageNum}
+                      className={`px-3 py-2 border-2 border-slate-400 rounded-lg cursor-pointer transition-colors ${
+                        page == pageNum
+                          ? "bg-blue-600 text-white border-blue-600"
+                          : "bg-white text-blue-600 hover:bg-blue-50"
+                      }`}
+                      onClick={handlePageChange}
+                    >
+                      {pageNum}
+                    </strong>
+                  ))}
+                </div>
+
+                <button
+                  onClick={handleNext}
+                  disabled={page === totalNumberOfPages}
+                  className={`px-4 py-2 rounded-lg border-2 transition-colors ${
+                    page === totalNumberOfPages
+                      ? "border-gray-300 text-gray-400 cursor-not-allowed"
+                      : "border-blue-500 text-blue-600 hover:bg-blue-50"
+                  }`}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      root.render(<App />);
+    </script>
+  </body>
+</html>

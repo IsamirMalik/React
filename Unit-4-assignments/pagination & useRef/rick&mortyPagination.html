@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- React CDN -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Axios CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script type="text/babel">
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+
+      const { useState, useRef, useEffect } = React;
+
+      function App() {
+        const [characters, setCharacters] = useState([]);
+        const [page, setPage] = useState(1);
+        const [loading, setLoading] = useState(false);
+        const [error, setError] = useState(null);
+
+        const pageRef = useRef(1);
+        const fetchCharacters = async () => {
+          try {
+            setLoading(true);
+            const response = await axios.get(
+              "https://rickandmortyapi.com/api/character"
+            );
+            console.log(response.data);
+            setCharacters(response.data.results);
+            setLoading(false);
+          } catch (error) {
+            setError(error);
+          }
+        };
+
+        useEffect(() => {
+          fetchCharacters();
+        }, []);
+
+        let totalNumberOfPages = Math.ceil(characters.length / 10);
+
+        let pages = [];
+        let index = 1;
+        while (index <= totalNumberOfPages) {
+          pages.push(index);
+          index++;
+        }
+
+                 let charactersPerPage = 10;
+         let lastIndexOfCurrentPage = page * charactersPerPage;
+         let firstIndexOfCurrentPage =
+           lastIndexOfCurrentPage - charactersPerPage;
+        let currentCharacters = characters.slice(
+          firstIndexOfCurrentPage,
+          lastIndexOfCurrentPage
+        );
+
+                 function handlePageChange(event) {
+           const newPage = parseInt(event.target.textContent);
+           pageRef.current = newPage;
+           setPage(newPage);
+         }
+
+        return (
+          <>
+            <h1 className="text-4xl font-bold mb-4">Characters</h1>
+            <div className="grid grid-cols-5 gap-4 bg-slate-200 p-4">
+              {currentCharacters.map((character) => (
+                                 <div
+                   className="p-4 border-2 border-slate-400 rounded-lg mb-4 text-center hover:bg-blue-50 transition-colors duration-200"
+                   key={character.id}
+                 >
+                  <h2 className="text-2xl font-bold mb-2">{character.name}</h2>
+                  <img
+                    className="mx-auto rounded-lg h-56"
+                    src={character.image}
+                    alt={character.name}
+                  />
+                  <div className="p-4">
+                    <span className="text-blue-600 mr-4 bg-slate-200 p-1 border-2 border-slate-400 rounded-lg ">
+                      {character.status}
+                    </span>
+                    <span className="mr-4 text-blue-600 bg-slate-200 p-1 border-2 border-slate-400 rounded-lg">
+                      {character.species}
+                    </span>
+                    <span className="mr-4 text-blue-600 bg-slate-200 p-1 border-2 border-slate-400 rounded-lg">
+                      {character.gender}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-center gap-2 mt-4">
+              {pages.map((pageNum) => (
+                <strong
+                  key={pageNum}
+                                     className={`px-3 py-2 border-2 border-slate-400 rounded-lg cursor-pointer  ${
+                     page == pageNum
+                       ? "bg-blue-600 text-white border-blue-600"
+                       : "bg-white text-blue-600 hover:bg-blue-50"
+                   }`}
+                  onClick={handlePageChange}
+                >
+                  {pageNum}
+                </strong>
+              ))}
+            </div>
+          </>
+        );
+      }
+
+      root.render(<App />);
+    </script>
+  </body>
+</html>
