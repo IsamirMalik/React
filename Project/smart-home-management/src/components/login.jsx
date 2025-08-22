@@ -21,8 +21,8 @@ function Login() {
       return;
     }
     setError("");
-    // Redirect to home/dashboard or show success (for demo, redirect to signup)
-    navigate("/");
+    // Redirect to dashboard after successful login
+    navigate("/dashboard");
   };
 
   return (
@@ -51,15 +51,12 @@ function Login() {
         </form>
         {error && <div>{error}</div>}
         <p>
-          Don't have an account?{' '}
-          <span onClick={() => navigate('/signup')}>
-            Sign Up
-          </span>
+          Don't have an account?{" "}
+          <span onClick={() => navigate("/signup")}>Sign Up</span>
         </p>
       </div>
     </>
   );
-  
 }
 
 export default Login;
