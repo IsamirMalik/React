@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ZoneCard from "./ZoneCard";
 
 function Zones() {
   const [showForm, setShowForm] = useState(false);
@@ -40,64 +41,139 @@ function Zones() {
     setEditIndex(idx);
   };
 
+  const handleDelete = (idx) => {
+    const updatedZones = zones.filter((_, i) => i !== idx);
+    setZones(updatedZones);
+    localStorage.setItem("zones", JSON.stringify(updatedZones));
+    setShowForm(false);
+    setEditIndex(null);
+  };
+
+  const buttonStyling = {
+    background: "#fff",
+    color: "#000",
+    border: "none",
+    padding: "0.5rem 1rem",
+    borderRadius: 4,
+    fontWeight: 600,
+    cursor: "pointer",
+    margin: "0.5rem",
+    textAlign: "center",
+    boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+  };
+
+  const formContainer = {
+    background: "#84A0EF",
+    padding: "1em",
+    borderRadius: 8,
+    width: "50vw",
+    margin: "2rem auto",
+    display: "flex",
+    flexDirection: "column",
+    // alignItems: "center",
+    boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+  };
+
+  const labelStyling = {
+    display: "block",
+    fontWeight: 500,
+    fontSize: 15,
+    margin: 12,
+    fontFamily: "Arial, Poppins , sans-serif",
+    // textAlign: "left",
+  };
+
+  const inputStyling = {
+    width: "95%",
+    padding: "8px",
+    borderRadius: 5,
+    border: "1px solid #ccc",
+    fontSize: 14,
+    boxShadow: "0 1px 2px rgba(0,0,0,0.08)",
+    marginBottom: 2,
+    height: 32,
+  };
+
   return (
     <div>
-      <h2>Zones (Rooms) Page</h2>
-      <button
-        onClick={() => {
-          setShowForm(true);
-          setForm({ name: "", type: "", floor: "" });
-          setEditIndex(null);
+      <h2
+        style={{
+          color: "#84A0EF",
+          textAlign: "center",
+          fontFamily: "inherit",
+          fontSize: "4rem",
+          fontWeight: "bold",
+          margin: 0,
         }}
       >
-        Add Room
-      </button>
+        Zones Page
+      </h2>
+      <div style={{ textAlign: "center" }}>
+        <button onClick={() => setShowForm(true)} style={buttonStyling}>
+          Add Zone
+        </button>
+      </div>
       {showForm && (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={formContainer}>
           <div>
-            <label>Room Name:</label>
+            <label style={labelStyling}>Room Name</label>
             <input
               name="name"
               value={form.name}
               onChange={handleChange}
               required
+              style={inputStyling}
             />
           </div>
           <div>
-            <label>Room Type:</label>
+            <label style={labelStyling}>Room Type</label>
             <input
               name="type"
               value={form.type}
               onChange={handleChange}
               required
+              style={inputStyling}
             />
           </div>
           <div>
-            <label>Floor:</label>
-            <input name="floor" value={form.floor} onChange={handleChange} />
+            <label style={labelStyling}>Floor</label>
+            <input
+              name="floor"
+              value={form.floor}
+              onChange={handleChange}
+              style={inputStyling}
+            />
           </div>
-          <button type="submit">
-            {editIndex !== null ? "Update Room" : "Save Room"}
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setShowForm(false);
-              setEditIndex(null);
-            }}
-          >
-            Cancel
-          </button>
+          <div>
+            <button type="submit" style={buttonStyling}>
+              {editIndex !== null ? "Update Room" : "Save Room"}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setShowForm(false);
+                setEditIndex(null);
+              }}
+              style={buttonStyling}
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       )}
-      <ul>
+      <div style={{ display: "flex", flexDirection: "row" , flexWrap: "wrap" , justifyContent: "center" , gap: "1rem" , }}>
         {zones.map((zone, idx) => (
-          <li key={idx}>
-            {zone.name} | {zone.type} | {zone.floor}
-            <button onClick={() => handleEdit(idx)}>Edit</button>
-          </li>
+          <ZoneCard
+            key={idx}
+            name={zone.name}
+            type={zone.type}
+            floor={zone.floor}
+            onEdit={() => handleEdit(idx)}
+            onDelete={() => handleDelete(idx)}
+            
+          />
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

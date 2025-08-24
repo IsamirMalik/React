@@ -21,45 +21,112 @@ function Settings() {
     // Save settings logic here
   };
 
+  const buttonStyling = {
+    background: "#fff",
+    color: "#000",
+    border: "none",
+    padding: "0.5rem 1rem",
+    borderRadius: 4,
+    fontWeight: 600,
+    cursor: "pointer",
+  };
+
+  const formContainer = {
+    background: "#84A0EF",
+    padding: "1em",
+    borderRadius: 8,
+    width: "50vw",
+    margin: "2rem auto",
+    display: "flex",
+    flexDirection: "column",
+    // alignItems: "center",
+    boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+  };
+
+  const labelStyling = {
+    display: "block",
+    fontWeight: 500,
+    fontSize: 15,
+    margin: 12,
+    fontFamily: "Arial, Poppins , sans-serif",
+    // textAlign: "left",
+  };
+
+  const inputStyling = {
+    width: "95%",
+    padding: "8px",
+    borderRadius: 5,
+    border: "1px solid #ccc",
+    fontSize: 14,
+    boxShadow: "0 1px 2px rgba(0,0,0,0.08)",
+    marginBottom: 2,
+    height: 32,
+  };
+
   return (
     <div>
-      <h2>Settings Page</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
-          <input
-            name="username"
-            value={form.username}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Email:</label>
-          <input
-            name="email"
-            type="email"
-            value={form.email}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Notifications:</label>
-          <input
-            name="notifications"
-            type="checkbox"
-            checked={form.notifications}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Theme:</label>
-          <select name="theme" value={form.theme} onChange={handleChange}>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </select>
-        </div>
-        <button type="submit">Save Settings</button>
-      </form>
+      <div>
+        <h2 style={{
+          color: "#84A0EF",
+          textAlign: "center",
+          fontFamily: "inherit",
+          fontSize: "4rem",
+          fontWeight: "bold",
+          margin: 0,
+        }}>Settings Page</h2>
+        <form onSubmit={handleSubmit} style={formContainer}>
+          <div>
+            <div>
+              <label style={labelStyling}>Username</label>
+              <input
+                name="username"
+                value={form.username}
+                onChange={handleChange}
+                style={inputStyling}
+              />
+            </div>
+            <div>
+              <label style={labelStyling}>Email</label>
+              <input
+                name="email"
+                type="email"
+                value={form.email}
+                onChange={handleChange}
+                style={inputStyling}
+              />
+            </div>
+            <div>
+              <label
+                style={{
+                  fontWeight: 500,
+                  fontSize: 15,
+                  margin: 12,
+                  fontFamily: "Arial, Poppins , sans-serif",
+                }}
+              >
+                Notifications
+              </label>
+              <input
+                name="notifications"
+                type="checkbox"
+                checked={form.notifications}
+                onChange={handleChange}
+                style={{
+                  border: "1px solid #ccc",
+                  borderRadius: "20px",
+                  width: "20px",
+                  height: "20px",
+                  marginTop: "15px",
+                }}
+              />
+            </div>
+
+            <div>
+              <button type="submit" style={buttonStyling}>Save Settings</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
