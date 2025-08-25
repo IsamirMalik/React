@@ -31,7 +31,12 @@ function Navbar() {
         >
           <li>
             <Link
-              style={{ color: "#fff", textDecoration: "none", fontWeight: 600 }}
+              style={{
+                color: "#fff",
+                textDecoration: "none",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
               to="/dashboard"
             >
               Dashboard
@@ -39,7 +44,12 @@ function Navbar() {
           </li>
           <li>
             <Link
-              style={{ color: "#fff", textDecoration: "none", fontWeight: 600 }}
+              style={{
+                color: "#fff",
+                textDecoration: "none",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
               to="/zones"
             >
               Zones (Rooms)
@@ -47,7 +57,12 @@ function Navbar() {
           </li>
           <li>
             <Link
-              style={{ color: "#fff", textDecoration: "none", fontWeight: 600 }}
+              style={{
+                color: "#fff",
+                textDecoration: "none",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
               to="/devices"
             >
               Devices
@@ -55,7 +70,12 @@ function Navbar() {
           </li>
           <li>
             <Link
-              style={{ color: "#fff", textDecoration: "none", fontWeight: 600 }}
+              style={{
+                color: "#fff",
+                textDecoration: "none",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
               to="/routines"
             >
               Routines
@@ -63,7 +83,12 @@ function Navbar() {
           </li>
           <li>
             <Link
-              style={{ color: "#fff", textDecoration: "none", fontWeight: 600 }}
+              style={{
+                color: "#fff",
+                textDecoration: "none",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
               to="/settings"
             >
               Settings

@@ -97,16 +97,37 @@ function Routines() {
       <div style={{ textAlign: "center" }}>
         <h2
           style={{
-            color: "#84A0EF",
-            textAlign: "center",
-            fontFamily: "inherit",
-            fontSize: "4rem",
-            fontWeight: "bold",
-            margin: 0,
-          }}
+          color: "#84A0EF",
+          textAlign: "center",
+          fontFamily: "inherit",
+          fontSize: "4rem",
+          fontWeight: "bold",
+          marginTop: "3rem",
+          marginBottom: "0rem",
+          lineHeight: "1.1",
+        }}
         >
-          Routines Page
+          Routines
         </h2>
+        <p
+          style={{
+          color: "#111",
+          textAlign: "center",
+          maxWidth: 1000,
+          margin: "0rem auto 0.5rem auto",
+          fontSize: "1.1rem",
+          backgroundColor: "#fff",
+          padding: "1rem",
+          borderRadius: "8px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+          fontFamily: "Arial, Poppins , sans-serif",
+        }}
+        >
+          Create and manage routines to automate your smart home. Add a routine
+          to schedule device actions, like turning on lights or adjusting
+          temperature at specific times. Edit or delete routines as needed to
+          keep your home running smoothly.
+        </p>
         <button
           onClick={() => {
             setShowForm(true);
@@ -167,7 +188,15 @@ function Routines() {
             </div>
           </form>
         )}
-        <div style={{ display: "flex", flexDirection: "row" , flexWrap: "wrap" , justifyContent: "center" , gap: "1rem" , }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            gap: "1rem",
+          }}
+        >
           {routines.map((routine, idx) => (
             <RoutineCard
               key={idx}

@@ -103,11 +103,31 @@ function Zones() {
           fontFamily: "inherit",
           fontSize: "4rem",
           fontWeight: "bold",
-          margin: 0,
+          marginTop: "3rem",
+          marginBottom: "0rem",
+          lineHeight: "1.1",
         }}
       >
-        Zones Page
+        Your Zones / Rooms
       </h2>
+      <p
+        style={{
+          color: "#111",
+          textAlign: "center",
+          maxWidth: 1000,
+          margin: "0rem auto 0.5rem auto",
+          fontSize: "1.1rem",
+          backgroundColor: "#fff",
+          padding: "1rem",
+          borderRadius: "8px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+          fontFamily: "Arial, Poppins , sans-serif",
+        }}
+      >
+        Organize your smart home by adding zones (rooms). Each zone helps you
+        group devices and routines for better control. Use the form to add a new
+        zone, and manage existing zones with the cards below.
+      </p>
       <div style={{ textAlign: "center" }}>
         <button onClick={() => setShowForm(true)} style={buttonStyling}>
           Add Zone
@@ -161,7 +181,15 @@ function Zones() {
           </div>
         </form>
       )}
-      <div style={{ display: "flex", flexDirection: "row" , flexWrap: "wrap" , justifyContent: "center" , gap: "1rem" , }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: "1rem",
+        }}
+      >
         {zones.map((zone, idx) => (
           <ZoneCard
             key={idx}
@@ -170,7 +198,6 @@ function Zones() {
             floor={zone.floor}
             onEdit={() => handleEdit(idx)}
             onDelete={() => handleDelete(idx)}
-            
           />
         ))}
       </div>
