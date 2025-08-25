@@ -21,7 +21,7 @@ function Login() {
       return;
     }
     setError("");
-    // Redirect to dashboard after successful login
+    localStorage.setItem("loggedInUser", JSON.stringify(user));
     navigate("/dashboard");
   };
 

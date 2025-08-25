@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 
 function Settings() {
+  React.useEffect(() => {
+    const saved = localStorage.getItem("settings");
+    if (saved) {
+      setForm(JSON.parse(saved));
+    }
+  }, []);
   const [form, setForm] = useState({
     username: "",
     email: "",
@@ -16,9 +22,13 @@ function Settings() {
     });
   };
 
+  const [saved, setSaved] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Save settings logic here
+    localStorage.setItem("settings", JSON.stringify(form));
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
   };
 
   const buttonStyling = {
@@ -66,14 +76,18 @@ function Settings() {
   return (
     <div>
       <div>
-        <h2 style={{
-          color: "#84A0EF",
-          textAlign: "center",
-          fontFamily: "inherit",
-          fontSize: "4rem",
-          fontWeight: "bold",
-          margin: 0,
-        }}>Settings Page</h2>
+        <h2
+          style={{
+            color: "#84A0EF",
+            textAlign: "center",
+            fontFamily: "inherit",
+            fontSize: "4rem",
+            fontWeight: "bold",
+            margin: 0,
+          }}
+        >
+          Settings
+        </h2>
         <form onSubmit={handleSubmit} style={formContainer}>
           <div>
             <div>
@@ -122,8 +136,25 @@ function Settings() {
             </div>
 
             <div>
-              <button type="submit" style={buttonStyling}>Save Settings</button>
+              <button type="submit" style={buttonStyling}>
+                Save Settings
+              </button>
             </div>
+            {saved && (
+              <div
+                style={{
+                  color: "#fff",
+                  marginTop: "1rem",
+                  textAlign: "center",
+                  fontWeight: 600,
+                  background: "#84A0EF",
+                  borderRadius: 6,
+                  padding: "0.5rem",
+                }}
+              >
+                Settings saved!
+              </div>
+            )}
           </div>
         </form>
       </div>

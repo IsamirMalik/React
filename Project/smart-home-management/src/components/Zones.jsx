@@ -70,7 +70,7 @@ function Zones() {
     margin: "2rem auto",
     display: "flex",
     flexDirection: "column",
-    // alignItems: "center",
+
     boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
   };
 
@@ -80,7 +80,6 @@ function Zones() {
     fontSize: 15,
     margin: 12,
     fontFamily: "Arial, Poppins , sans-serif",
-    // textAlign: "left",
   };
 
   const inputStyling = {

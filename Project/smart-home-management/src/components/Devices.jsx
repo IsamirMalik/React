@@ -81,7 +81,7 @@ function Devices() {
     margin: "2rem auto",
     display: "flex",
     flexDirection: "column",
-    // alignItems: "center",
+
     boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
   };
 
@@ -91,7 +91,6 @@ function Devices() {
     fontSize: 15,
     margin: 12,
     fontFamily: "Arial, Poppins , sans-serif",
-    // textAlign: "left",
   };
 
   const inputStyling = {
@@ -110,31 +109,31 @@ function Devices() {
       <div style={{ textAlign: "center" }}>
         <h2
           style={{
-          color: "#84A0EF",
-          textAlign: "center",
-          fontFamily: "inherit",
-          fontSize: "4rem",
-          fontWeight: "bold",
-          marginTop: "3rem",
-          marginBottom: "0rem",
-          lineHeight: "1.1",
-        }}
+            color: "#84A0EF",
+            textAlign: "center",
+            fontFamily: "inherit",
+            fontSize: "4rem",
+            fontWeight: "bold",
+            marginTop: "3rem",
+            marginBottom: "0rem",
+            lineHeight: "1.1",
+          }}
         >
-          Devices 
+          Devices
         </h2>
         <p
           style={{
-          color: "#111",
-          textAlign: "center",
-          maxWidth: 1000,
-          margin: "0rem auto 0.5rem auto",
-          fontSize: "1.1rem",
-          backgroundColor: "#fff",
-          padding: "1rem",
-          borderRadius: "8px",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
-          fontFamily: "Arial, Poppins , sans-serif",
-        }}
+            color: "#111",
+            textAlign: "center",
+            maxWidth: 1000,
+            margin: "0rem auto 0.5rem auto",
+            fontSize: "1.1rem",
+            backgroundColor: "#fff",
+            padding: "1rem",
+            borderRadius: "8px",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+            fontFamily: "Arial, Poppins , sans-serif",
+          }}
         >
           Add, edit, or remove devices in your smart home. Track device status,
           location, and energy usage. Use the form to add new devices, and

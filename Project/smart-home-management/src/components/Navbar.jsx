@@ -1,7 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("loggedInUser");
+    navigate("/login");
+  };
+
   return (
     <>
       <h1
@@ -93,6 +100,25 @@ function Navbar() {
             >
               Settings
             </Link>
+          </li>
+          <li>
+            <button
+              onClick={handleLogout}
+              style={{
+                background: "#fff",
+                color: "#84A0EF",
+                border: "none",
+                borderRadius: "6px",
+                padding: "0.5rem 1.2rem",
+                fontWeight: 600,
+                cursor: "pointer",
+                fontSize: "1rem",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+                marginLeft: "1rem",
+              }}
+            >
+              Logout
+            </button>
           </li>
         </ul>
       </nav>
